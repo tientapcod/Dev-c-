@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+
+const int SIZE = 3;
+
+// Function to check if a 2D array is a Lo Shu Magic Square
+bool isLoShuMagicSquare(int arr[][SIZE]) {
+    int magicSum = 15;  // The magic sum for Lo Shu Magic Square
+    
+    // Check sum of rows
+    for (int i = 0; i < SIZE; i++) {
+        int rowSum = 0;
+        for (int j = 0; j < SIZE; j++) {
+            rowSum += arr[i][j];
+        }
+        if (rowSum != magicSum) {
+            return false;
+        }
+    }
+    
+    // Check sum of columns
+    for (int j = 0; j < SIZE; j++) {
+        int colSum = 0;
+        for (int i = 0; i < SIZE; i++) {
+            colSum += arr[i][j];
+        }
+        if (colSum != magicSum) {
+            return false;
+        }
+    }
+    
+    // Check sum of diagonals
+    int diagonalSum1 = 0;
+    int diagonalSum2 = 0;
+    for (int i = 0; i < SIZE; i++) {
+        diagonalSum1 += arr[i][i];
+        diagonalSum2 += arr[i][SIZE-1-i];
+    }
+    if (diagonalSum1 != magicSum || diagonalSum2 != magicSum) {
+        return false;
+    }
+    
+    // If all sums are equal to magicSum, it is a Lo Shu Magic Square
+    return true;
+}
+
+int main() {
+    int arr[SIZE][SIZE] = {{4, 9, 2},
+                           {3, 5, 7},
+                           {8, 1, 6}};
+    
+    if (isLoShuMagicSquare(arr)) {
+        cout << "The given array is a Lo Shu Magic Square." << endl;
+    } else {
+        cout << "The given array is not a Lo Shu Magic Square." << endl;
+    }
+    
+    return 0;
+}
