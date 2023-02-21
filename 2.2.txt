@@ -1,0 +1,84 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+// Function prototypes
+double calculateCharges(int days, double dailyRate, double medCharges, double serviceCharges);
+double calculateCharges(double medCharges, double serviceCharges);
+
+int main() {
+    ofstream outFile("hospital_report.txt"); // Create output file
+
+    // Declare variables
+    int days;
+    double dailyRate, medCharges, serviceCharges, totalCharges;
+    char patientType;
+
+    // Ask if patient is in-patient or out-patient
+    cout << "Was the patient admitted as an in-patient (I) or an out-patient (O)? ";
+    cin >> patientType;
+
+    // Get data based on patient type
+    if (patientType == 'I' || patientType == 'i') {
+        // Get in-patient data
+        cout << "Number of days spent in the hospital: ";
+        cin >> days;
+        cout << "Daily rate: $";
+        cin >> dailyRate;
+        cout << "Hospital medication charges: $";
+        cin >> medCharges;
+        cout << "Charges for hospital services: $";
+        cin >> serviceCharges;
+
+        // Calculate total charges for in-patient
+        totalCharges = calculateCharges(days, dailyRate, medCharges, serviceCharges);
+    }
+    else if (patientType == 'O' || patientType == 'o') {
+        // Get out-patient data
+        cout << "Charges for hospital services: $";
+        cin >> serviceCharges;
+        cout << "Hospital medication charges: $";
+        cin >> medCharges;
+
+        // Calculate total charges for out-patient
+        totalCharges = calculateCharges(medCharges, serviceCharges);
+    }
+    else {
+        // Invalid input
+        cout << "Invalid input. Please enter I or O." << endl;
+        return 1; // Exit program with error code
+    }
+
+    // Write report to file
+    outFile << "Hospital Report" << endl;
+    outFile << "----------------" << endl;
+    outFile << "Total charges: $" << totalCharges << endl;
+
+    // Close output file
+    outFile.close();
+
+    cout << "Report written to hospital_report.txt" << endl;
+
+    return 0; // Exit program
+}
+
+// Function definitions
+double calculateCharges(int days, double dailyRate, double medCharges, double serviceCharges) {
+    if (days < 0 || dailyRate < 0 || medCharges < 0 || serviceCharges < 0) {
+        // Invalid input
+        return -1;
+    }
+
+    double totalCharges = (days * dailyRate) + medCharges + serviceCharges;
+    return totalCharges;
+}
+
+double calculateCharges(double medCharges, double serviceCharges) {
+    if (medCharges < 0 || serviceCharges < 0) {
+        // Invalid input
+        return -1;
+    }
+
+    double totalCharges = medCharges + serviceCharges;
+    return totalCharges;
+}
